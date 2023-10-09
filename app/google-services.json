@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "139441038322",
+    "firebase_url": "https://wise-boulder-368910-default-rtdb.firebaseio.com",
+    "project_id": "wise-boulder-368910",
+    "storage_bucket": "wise-boulder-368910.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:139441038322:android:409fe90fd4a84c6acfc16b",
+        "android_client_info": {
+          "package_name": "com.specknet.pdiotapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "139441038322-eb0m4tiee7hibnsra1iqlcos5725rvte.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.specknet.pdiotapp",
+            "certificate_hash": "efb89f2759d9e8104a906d02232e9a071d536657"
+          }
+        },
+        {
+          "client_id": "139441038322-cd2pdj2dff35dkgl6lp2c32i3uijk1ll.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlT3Yw0XVXIOcKvpj8oG7R3yMXOspTYDM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "139441038322-cd2pdj2dff35dkgl6lp2c32i3uijk1ll.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
