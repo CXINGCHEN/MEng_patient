@@ -10,6 +10,7 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import com.cxc.arduinobluecontrol.DatabaseManager
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
@@ -21,6 +22,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.specknet.pdiotapp.bean.UserInfoBean
 
 class LoginActivity : AppCompatActivity() {
 
@@ -111,6 +113,13 @@ class LoginActivity : AppCompatActivity() {
      * 当登录成功的时候
      */
     fun onLoginSuccess() {
+
+        val userInfoBean = UserInfoBean().apply {
+            age = 25
+            email = auth.currentUser?.email
+        }
+        DatabaseManager.addUserinfoToDb(userInfoBean)
+
         startActivity(Intent(this, HomeActivity::class.java))
         finish()
     }

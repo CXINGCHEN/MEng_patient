@@ -10,6 +10,7 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import com.specknet.pdiotapp.bean.RecognitionResultBean
+import com.specknet.pdiotapp.bean.UserInfoBean
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Timer
@@ -124,6 +125,19 @@ object DatabaseManager {
         }, 0, 1000)
 
 
+    }
+
+    fun addUserinfoToDb(userInfoBean: UserInfoBean) {
+
+        val uid = auth.uid
+        val userInfoPath = "${uid}/userInfo"
+        val reference = database.getReference(userInfoPath)
+
+        reference.setValue(userInfoBean).addOnSuccessListener {
+            Log.i(TAG, "addUserinfoToDb: success")
+        }.addOnFailureListener {
+            it.printStackTrace()
+        }
     }
 
     private fun initRefWithDate(date: String) {
