@@ -102,7 +102,7 @@ class LoginActivity : AppCompatActivity() {
                 // Your server's client ID, not your Android client ID.
                 .setServerClientId("139441038322-cd2pdj2dff35dkgl6lp2c32i3uijk1ll.apps.googleusercontent.com")
                 // Only show accounts previously used to sign in.
-                .setFilterByAuthorizedAccounts(true).build()
+                .setFilterByAuthorizedAccounts(false).build()
         )
             // Automatically sign in when exactly one credential is retrieved.
             .setAutoSelectEnabled(false).build()
@@ -134,11 +134,13 @@ class LoginActivity : AppCompatActivity() {
                 )
 
             } catch (e: IntentSender.SendIntentException) {
+                e.printStackTrace()
                 Log.e(TAG, "Couldn't start One Tap UI: ${e.localizedMessage}")
             }
         }.addOnFailureListener(this) { e ->
             // No saved credentials found. Launch the One Tap sign-up flow, or
             // do nothing and continue presenting the signed-out UI.
+            e.printStackTrace()
             Log.d(TAG, e.localizedMessage)
         }
 

@@ -8,4 +8,11 @@
         app:showAsAction="always"
         android:title="Message" />
 
+    <item
+        android:id="@+id/navigation_logout"
+        android:icon="@drawable/icon_menu_logout"
+        app:showAsAction="always"
+        android:title="Logout" />
+
+
 </menu>

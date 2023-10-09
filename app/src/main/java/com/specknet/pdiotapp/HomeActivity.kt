@@ -12,6 +12,8 @@ import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.cxc.arduinobluecontrol.DatabaseManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class HomeActivity : AppCompatActivity() {
 
@@ -133,8 +135,20 @@ class HomeActivity : AppCompatActivity() {
                 true
             }
 
+            R.id.navigation_logout -> {
+                logout()
+                true
+            }
+
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun logout() {
+        Firebase.auth.signOut()
+        startActivity(Intent(this, LoginActivity::class.java))
+        finish()
+
     }
 
 }
