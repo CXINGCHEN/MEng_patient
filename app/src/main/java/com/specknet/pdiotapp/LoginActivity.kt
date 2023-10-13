@@ -28,7 +28,7 @@ import com.specknet.pdiotapp.bean.UserInfoBean
  * 登录页
  */
 class LoginActivity : AppCompatActivity() {
-
+    //
     companion object {
         const val TAG = "LoginActivity"
     }
@@ -154,7 +154,8 @@ class LoginActivity : AppCompatActivity() {
         val emailEditText = findViewById<TextInputEditText>(R.id.email)
         val passwordEditText = findViewById<TextInputEditText>(R.id.password)
 
-//
+        Log.i(TAG, "login: email = ${emailEditText.text.toString()}")
+        Log.i(TAG, "login: password = ${passwordEditText.text.toString()}")
 
         auth.signInWithEmailAndPassword(
             emailEditText.text.toString(), passwordEditText.text.toString()
