@@ -25,7 +25,7 @@ import com.google.firebase.ktx.Firebase
 import com.specknet.pdiotapp.bean.UserInfoBean
 
 class LoginActivity : AppCompatActivity() {
-    //
+
     companion object {
         const val TAG = "LoginActivity"
     }
