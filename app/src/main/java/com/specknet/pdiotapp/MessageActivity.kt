@@ -40,9 +40,9 @@ class MessageActivity : AppCompatActivity() {
             val resultList = mutableListOf<AlertMsg>()
             map.values.forEach {
                 val map1 = it as Map<String, Any>
-                val alertMsgs = map1["alertmsg"] as ArrayList<HashMap<String, Any>>
+                val alertMsgs = map1["alertmsg"] as ArrayList<HashMap<String, Any>?>?
 
-                alertMsgs.forEach {
+                alertMsgs?.forEach {
 
                     // map -》 json
                     // gson.toJson(it)

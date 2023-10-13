@@ -1,11 +1,14 @@
 package com.specknet.pdiotapp
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentPagerAdapter
@@ -145,9 +148,38 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun logout() {
-        Firebase.auth.signOut()
-        startActivity(Intent(this, LoginActivity::class.java))
-        finish()
+
+
+        // this 就是 HomeActivity的实例
+        // this.startActivity(Intent(this, LoginActivity::class.java))
+
+
+        AlertDialog.Builder(this).setTitle("确定退出吗").setMessage("是否退出")
+            .setPositiveButton("确定",
+                // 匿名内部类
+                object : DialogInterface.OnClickListener {
+                    override fun onClick(dialog: DialogInterface?, which: Int) {
+
+                        // 这里的 this 是匿名内部类 不是HomeActivity
+                        // this.startActivity(Intent(this, LoginActivity::class.java))
+
+                        // firebase退出方法
+                        Firebase.auth.signOut()
+                        this@HomeActivity.startActivity(
+                            Intent(
+                                this@HomeActivity, LoginActivity::class.java
+                            )
+                        )
+                        finish()
+                    }
+
+                }).setNegativeButton("取消", object : DialogInterface.OnClickListener {
+                override fun onClick(dialog: DialogInterface?, which: Int) {
+
+                }
+
+            }).show()
+
 
     }
 

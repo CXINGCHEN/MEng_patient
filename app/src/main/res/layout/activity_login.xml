@@ -11,6 +11,7 @@
         android:id="@+id/email"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="120dp"
         android:hint="email"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
@@ -32,8 +33,10 @@
         android:id="@+id/login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="login"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/home_icon_bg"
         android:onClick="login"
+        android:text="login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/password" />
@@ -43,8 +46,10 @@
         android:id="@+id/googleLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="google login"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/home_icon_bg"
         android:onClick="googleLogin"
+        android:text="google login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/login" />
@@ -53,25 +58,26 @@
         android:id="@+id/logout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="logout"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/home_icon_bg"
         android:onClick="logout"
+        android:text="logout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/googleLogin" />
-
 
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="register"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/home_icon_bg"
         android:onClick="register"
+        android:text="register"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/logout" />
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
