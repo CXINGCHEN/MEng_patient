@@ -24,6 +24,9 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.specknet.pdiotapp.bean.UserInfoBean
 
+/**
+ * 登录页
+ */
 class LoginActivity : AppCompatActivity() {
 
     companion object {
