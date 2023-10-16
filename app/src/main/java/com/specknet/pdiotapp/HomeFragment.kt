@@ -38,7 +38,11 @@ import org.json.JSONException
 import org.json.JSONObject
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import kotlin.math.roundToInt
+import kotlin.random.Random
 
 /**
  * A simple [Fragment] subclass.
@@ -136,6 +140,7 @@ class HomeFragment : Fragment(), IncomingDataListener {
 
 
     private var spo2AndHeartRateList = mutableListOf<Spo2AndHeartRateBean>()
+    private var actionRealtimeList = mutableListOf<RecognitionResultBean>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -152,6 +157,31 @@ class HomeFragment : Fragment(), IncomingDataListener {
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
+
+    private fun mockList(): MutableList<RecognitionResultBean> {
+        val result = mutableListOf<RecognitionResultBean>()
+
+        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.CHINA)
+
+        val timestampStart = sdf.parse(sdf.format(Date())).time + (1000 * 60 * 60 * 12)
+        val timestampEnd =
+            sdf.parse(sdf.format(Date())).time + (1000 * 60 * 60 * 24) - (1000 * 60 * 60 * 11)
+
+
+        var timestamp = timestampStart
+        while (timestamp < (timestampEnd)) {
+            val bean = RecognitionResultBean()
+
+            bean.timestamp = timestamp
+            bean.labelIndex = Random.nextInt(0, 14)
+            result.add(bean)
+
+            timestamp += 50000
+        }
+
+        return result
+
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -170,14 +200,13 @@ class HomeFragment : Fragment(), IncomingDataListener {
         view.findViewById<View>(R.id.tvThingy1).setOnClickListener {
 
             // 测试用
-            val spo2AndHeartRateBean =
-                Spo2AndHeartRateBean(System.currentTimeMillis(), 85, 95.4)
+            val mockList = mockList()
 
-            spo2AndHeartRateList.add(spo2AndHeartRateBean)
+            actionRealtimeList.addAll(mockList)
 
-            if(spo2AndHeartRateList.size == 5) {
-                DatabaseManager.addSpo2AndHeartRate(spo2AndHeartRateList)
-                spo2AndHeartRateList = mutableListOf()
+            if(actionRealtimeList.size >= 5) {
+                DatabaseManager.addActionRealtime(actionRealtimeList)
+                actionRealtimeList = mutableListOf()
             }
 
         }
@@ -272,6 +301,18 @@ class HomeFragment : Fragment(), IncomingDataListener {
                                 lastlabel = label
                                 updateUI(label, tinyLstmConfidence)
                                 Log.i("Tiny LSTM MODEL scheduleAtFixedRate", label)
+
+                                val bean =
+                                    RecognitionResultBean()
+                                bean.labelIndex = getLabelIndex(mergeClassifyResult)
+                                bean.timestamp = System.currentTimeMillis()
+                                bean.label = label
+                                actionRealtimeList.add(bean)
+
+                                if(actionRealtimeList.size == 20) {
+                                    DatabaseManager.addActionRealtime(actionRealtimeList)
+                                    actionRealtimeList = mutableListOf()
+                                }
 
 
                                 // 识别到几个动作 map里面就会有几个key
@@ -415,6 +456,18 @@ class HomeFragment : Fragment(), IncomingDataListener {
                                 updateUI(label, tinyLstmConfidence)
                                 Log.i("Tiny LSTM MODEL scheduleAtFixedRate", label)
 
+                                val bean =
+                                    RecognitionResultBean()
+                                bean.labelIndex = getLabelIndex(mergeClassifyResult)
+                                bean.timestamp = System.currentTimeMillis()
+                                bean.label = label
+                                actionRealtimeList.add(bean)
+
+                                if(actionRealtimeList.size == 20) {
+                                    DatabaseManager.addActionRealtime(actionRealtimeList)
+                                    actionRealtimeList = mutableListOf()
+                                }
+
 
                                 // 识别到几个动作 map里面就会有几个key
                                 map[label] = map[label]?.plus(1) ?: 1
@@ -462,6 +515,18 @@ class HomeFragment : Fragment(), IncomingDataListener {
         )
 
 
+    }
+
+    fun getLabelIndex(predictions: FloatArray): Int {
+        var max = Float.MIN_VALUE
+        var maxIdx = -1
+        for (i in labels.indices) {
+            if (predictions[i] > max) {
+                max = predictions[i]
+                maxIdx = i
+            }
+        }
+        return maxIdx
     }
 
 

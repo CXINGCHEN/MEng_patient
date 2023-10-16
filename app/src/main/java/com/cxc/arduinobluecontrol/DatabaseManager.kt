@@ -80,6 +80,35 @@ object DatabaseManager {
     private var todaySpo2AndHeartRateList = mutableListOf<Spo2AndHeartRateBean>()
     // -----------------------------------------
 
+    // ---------------动作类型所有数据--------------------------
+
+
+    private var actionRealtimeDbPath = ""
+    private var actionRealtimeRef: DatabaseReference? = null
+    private var actionRealtimeValueEventListener = object : ValueEventListener {
+        override fun onDataChange(snapshot: DataSnapshot) {
+            val value = snapshot.value
+            if (value == null) {
+                todayActionRealtimeList = mutableListOf()
+            } else {
+                todayActionRealtimeList = value as MutableList<RecognitionResultBean>
+            }
+
+            Log.i(
+                TAG,
+                "actionRealtimeValueEventListener onDataChange: ${gson.toJson(todayActionRealtimeList)}"
+            )
+        }
+
+        override fun onCancelled(error: DatabaseError) {
+
+        }
+
+    }
+
+    private var todayActionRealtimeList = mutableListOf<RecognitionResultBean>()
+    // -----------------------------------------
+
     private var actionDbPath = ""
     private var actionRef: DatabaseReference? = null
     private var actionValueEventListener = object : ValueEventListener {
@@ -157,6 +186,35 @@ object DatabaseManager {
         actionDbPath = "${uid}/date${date}/action/"
         actionRef = database.getReference(actionDbPath)
         actionRef?.addValueEventListener(actionValueEventListener)
+
+
+        actionRealtimeDbPath = "${uid}/date${date}/actionrealtime/"
+        actionRealtimeRef = database.getReference(actionRealtimeDbPath)
+        actionRealtimeRef?.addValueEventListener(actionRealtimeValueEventListener)
+
+    }
+
+
+    fun addActionRealtime(list: List<RecognitionResultBean>) {
+        val uid = auth.uid
+        if (uid.isNullOrEmpty()) {
+            // 没有登录
+            return
+        }
+
+        if (actionRealtimeRef == null) {
+            return
+        }
+
+        todayActionRealtimeList.addAll(list)
+
+        // 更新远端
+        actionRealtimeRef!!.setValue(todayActionRealtimeList).addOnSuccessListener {
+            Log.i(TAG, "actionRealtimeRef setValue: Success")
+        }.addOnFailureListener {
+            Log.i(TAG, "actionRealtimeRef setValue: Failure")
+            it.printStackTrace()
+        }
     }
 
 
